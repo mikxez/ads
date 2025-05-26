@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Все объявления{% endblock %}
+
+{% block content %}
+<div class="ad-controls">
+  <div class="search-box">
+    <form method="get" class="search-form">
+      <input type="text" name="q" placeholder="Поиск по названию..." value="{{ query }}">
+      <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+
+  <div class="category-filter">
+    <strong>Категории:</strong>
+    <a href="{% url 'ad_list' %}" class="category-tag {% if not selected_category %}active{% endif %}">Все</a>
+    {% for category in categories %}
+      <a href="?category={{ category.id }}" class="category-tag {% if category.id|stringformat:"s" == selected_category %}active{% endif %}">
+        {{ category.name }}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="ad-grid">
+  {% for ad in ads %}
+    <div class="ad-card">
+      {% if ad.image %}
+        <div class="ad-image" style="background-image: url('{{ ad.image.url }}')"></div>
+      {% else %}
+        <div class="ad-image no-image"><i class="fas fa-image"></i></div>
+      {% endif %}
+
+      <div class="ad-content">
+        <h3 class="ad-title">{{ ad.title }}</h3>
+        <p class="ad-description">{{ ad.description|truncatechars:100 }}</p>
+
+        <div class="ad-meta">
+          <span class="ad-category">{{ ad.category.name }}</span>
+          <span class="ad-author">{{ ad.user.username }}</span>
+        </div>
+
+        <div class="ad-actions">
+          {% if request.user == ad.user %}
+            <a href="{% url 'ad_update' ad.id %}" class="btn btn-edit"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'ad_delete' ad.id %}" class="btn btn-delete"><i class="fas fa-trash"></i></a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

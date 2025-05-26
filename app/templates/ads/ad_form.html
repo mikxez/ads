@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактирование{% else %}Новое объявление{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <h1 class="form-title">{% if form.instance.pk %}Редактировать{% else %}Создать{% endif %} объявление</h1>
+
+  <form method="post" enctype="multipart/form-data" class="ad-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="{{ form.title.id_for_label }}">Название</label>
+      {{ form.title }}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="{{ form.category.id_for_label }}">Категория</label>
+        {{ form.category }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.condition.id_for_label }}">Состояние</label>
+        {{ form.condition }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.description.id_for_label }}">Описание</label>
+      {{ form.description }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.image.id_for_label }}">Изображение</label>
+      <div class="file-upload">
+        {{ form.image }}
+        <label for="{{ form.image.id_for_label }}" class="file-upload-label">
+          <i class="fas fa-cloud-upload-alt"></i> Выберите файл
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Сохранить
+      </button>
+      <a href="{% url 'ad_list' %}" class="btn btn-secondary">
+        <i class="fas fa-times"></i> Отмена
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

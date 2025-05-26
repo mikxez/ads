@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление объявления{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+  <div class="delete-card">
+    <h1 class="delete-title">Подтвердите удаление</h1>
+    <p class="delete-message">Вы уверены, что хотите удалить объявление <strong>"{{ ad.title }}"</strong>?</p>
+
+    <form method="post" class="delete-form">
+      {% csrf_token %}
+      <div class="delete-actions">
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-trash"></i> Да, удалить
+        </button>
+        <a href="{% url 'ad_list' %}" class="btn btn-cancel">
+          <i class="fas fa-times"></i> Отмена
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
